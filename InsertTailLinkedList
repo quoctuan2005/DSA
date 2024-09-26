@@ -1,0 +1,105 @@
+#include <iostream>
+using namespace std;
+
+class SinglyLinkedListNode
+{
+public:
+    int data;
+    SinglyLinkedListNode *next;
+
+    SinglyLinkedListNode(int node_data)
+    {
+        this->data = node_data;
+        this->next = nullptr;
+    }
+};
+
+class SinglyLinkedList
+{
+public:
+    SinglyLinkedListNode *head;
+
+    SinglyLinkedList()
+    {
+        this->head = nullptr;
+    }
+};
+
+// Hàm chèn node vào cuối danh sách liên kết đơn
+SinglyLinkedListNode *insertNodeAtTail(SinglyLinkedListNode *head, int data)
+{
+    auto newNode = new SinglyLinkedListNode(data);
+    if (!head)
+    {
+        return newNode;
+    }
+
+    auto res = head;
+    while (head->next)
+    {
+        head = head->next;
+    }
+
+    head->next = newNode;
+
+    return res;
+}
+
+// Hàm in danh sách liên kết
+void print_singly_linked_list(SinglyLinkedListNode *node)
+{
+    while (node)
+    {
+        cout << node->data;
+
+        node = node->next;
+
+        if (node)
+        {
+            cout << " -> ";
+        }
+    }
+    cout << endl;
+}
+
+// Hàm giải phóng bộ nhớ của danh sách liên kết
+void free_singly_linked_list(SinglyLinkedListNode *node)
+{
+    while (node)
+    {
+        SinglyLinkedListNode *temp = node;
+        node = node->next;
+        free(temp);
+    }
+}
+
+int main()
+{
+    SinglyLinkedList *llist = new SinglyLinkedList();
+    int llist_count;
+
+    // Nhập số lượng phần tử cần thêm vào danh sách
+    cout << "Nhập số lượng phần tử: ";
+    cin >> llist_count;
+
+    // Nhập các phần tử của danh sách
+    for (int i = 0; i < llist_count; i++)
+    {
+        int llist_item;
+        cout << "Nhập phần tử thứ " << i + 1 << ": ";
+        cin >> llist_item;
+
+        // Chèn phần tử vào cuối danh sách liên kết
+        SinglyLinkedListNode *llist_head = insertNodeAtTail(llist->head, llist_item);
+        llist->head = llist_head;
+    }
+
+    // In danh sách liên kết
+    cout << "Danh sách liên kết: ";
+    print_singly_linked_list(llist->head);
+
+    // Giải phóng bộ nhớ của danh sách
+    free_singly_linked_list(llist->head);
+
+    return 0;
+}
